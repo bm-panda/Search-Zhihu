@@ -1,0 +1,23 @@
+[bmscriptsbox]
+
+[bmscriptsbox.info]
+id = "d46eb5e6-a7c9-4c51-ade6-6f85bf01dc81"
+icon = "zhihu.png"
+name = "搜索知乎"
+desc = "复制文本搜索知乎 | 剪贴板触发、关键词自动URL编码、双击Ctrl+C即搜 | 一键在浏览器打开搜狗知乎搜索结果"
+version = "1.0.0"
+
+[bmscriptsbox.runtime]
+language = "powershell"
+language_version = ">=5.1"
+entry = "SearchZhihu.ps1"
+terminal = "never"
+
+[bmscriptsbox.triggers.quick_copy]
+enabled = true
+
+[[bmscriptsbox.inputs]]
+name = "target_text"
+label = "关键词"
+type = "str"
+description = "要搜索的知乎关键词"
