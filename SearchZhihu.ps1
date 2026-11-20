@@ -47,13 +47,12 @@ $keyword = $keyword -replace '^\s*(知乎|zhihu)\s*[:：]?\s+', ''
 $keyword = ($keyword -replace '\s+', ' ').Trim()
 
 if ([string]::IsNullOrWhiteSpace($keyword)) {
-    Show-Bubble -ApiBase $apiBase -Type "info" -Message "请先复制文本，或在盒子搜索框输入关键词后再运行"
-    Write-Output (@{ status = "info"; message = "搜索关键词为空" } | ConvertTo-Json -Compress)
-    exit 0
+    # 没有搜索词就不带 q 参数，正常打开知乎首页
+    $url = "https://www.zhihu.com/"
+} else {
+    # 知乎站内搜索：type=content 搜「内容」（回答/文章），EscapeDataString 负责中文与特殊符号编码
+    $url = "https://www.zhihu.com/search?type=content&q=$([uri]::EscapeDataString($keyword))"
 }
-
-# 知乎站内搜索：type=content 搜「内容」（回答/文章），EscapeDataString 负责中文与特殊符号编码
-$url = "https://www.zhihu.com/search?type=content&q=$([uri]::EscapeDataString($keyword))"
 
 try {
     Start-Process -FilePath $url
