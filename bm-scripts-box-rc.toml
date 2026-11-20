@@ -2,10 +2,10 @@
 
 [bmscriptsbox.info]
 id = "d46eb5e6-a7c9-4c51-ade6-6f85bf01dc81"
-icon = "zhihu.png"
+icon = "./imgs/zhihu.png"
 name = "搜索知乎"
-desc = "复制文本搜索知乎 | 剪贴板触发、关键词自动URL编码、双击Ctrl+C即搜 | 一键在浏览器打开搜狗知乎搜索结果"
-version = "1.0.0"
+desc = "一键搜索知乎内容 | 支持剪贴板双击 Ctrl+C、盒子搜索框关键词两种触发方式，中文关键词自动 URL 编码，直达知乎内容搜索结果页"
+version = "1.2.0"
 
 [bmscriptsbox.runtime]
 language = "powershell"
@@ -13,11 +13,21 @@ language_version = ">=5.1"
 entry = "SearchZhihu.ps1"
 terminal = "never"
 
+# 入口一：任意界面选中文字，双击 Ctrl+C 直接搜
 [bmscriptsbox.triggers.quick_copy]
 enabled = true
+
+# 入口二：在盒子主界面搜索框输入关键词，推荐里点一下就搜
+[bmscriptsbox.triggers.search]
+enabled = true
+match = [
+  { kind = "text", prefix = "知乎 ", weight = 50 },
+  { kind = "text", prefix = "zhihu ", weight = 50, ignore_case = true },
+  { kind = "text", min_length = 1, max_length = 200, weight = 1 },
+]
 
 [[bmscriptsbox.inputs]]
 name = "target_text"
 label = "关键词"
 type = "str"
-description = "要搜索的知乎关键词"
+description = "要搜索的知乎关键词；超级复制时由剪贴板文本填入，搜索触发时由搜索框内容填入"
